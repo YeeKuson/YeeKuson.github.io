@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 正式域名确认后，在此加入首页的绝对 URL；暂不写入虚构地址。 -->
+  <url>
+    <loc>https://yeekuson.github.io/Forverse/</loc>
+  </url>
 </urlset>

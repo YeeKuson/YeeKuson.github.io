@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#f3efe7" />
+    <meta name="theme-color" content="#eaf4ff" />
     <meta name="robots" content="index, follow" />
     <meta
       name="description"
       content="Forverse 是海绵朋克的个人网站，分享 AI Agent 实操、AI Native 工具、传统工作流改造与 FDE 实践。"
     />
     <meta name="author" content="海绵朋克" />
+    <link rel="canonical" href="https://yeekuson.github.io/Forverse/" />
     <meta
       name="keywords"
       content="Forverse, 海绵朋克, AI Agent, AI Native, FDE, 工作流改造"
@@ -19,9 +20,10 @@
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Forverse" />
+    <meta property="og:url" content="https://yeekuson.github.io/Forverse/" />
     <meta property="og:title" content="Forverse｜海绵朋克" />
     <meta property="og:description" content="以前向工程，改造后向事务。" />
-    <meta property="og:image" content="assets/images/og-image.png" />
+    <meta property="og:image" content="https://yeekuson.github.io/Forverse/assets/images/og-image.png" />
     <meta
       property="og:image:alt"
       content="Forverse：以前向工程，改造后向事务。海绵朋克的 AI Agent 实践与 FDE 工作流改造。"
@@ -32,7 +34,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Forverse｜海绵朋克" />
     <meta name="twitter:description" content="以前向工程，改造后向事务。" />
-    <meta name="twitter:image" content="assets/images/og-image.png" />
+    <meta name="twitter:image" content="https://yeekuson.github.io/Forverse/assets/images/og-image.png" />
     <meta
       name="twitter:image:alt"
       content="Forverse：海绵朋克的 AI Agent 实践与 FDE 工作流改造。"
@@ -45,6 +47,8 @@
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳转到主要内容</a>
+    <div class="ambient-orb ambient-orb-one" aria-hidden="true"></div>
+    <div class="ambient-orb ambient-orb-two" aria-hidden="true"></div>
 
     <header class="site-header" data-header>
       <div class="container nav-shell">
@@ -181,59 +185,77 @@
           </div>
 
           <div class="work-list">
-            <article class="work-item">
-              <p class="work-number">01</p>
-              <div class="work-content">
-                <div class="work-title-row">
-                  <h3>AI Native 工具</h3>
-                  <span class="status">持续探索</span>
-                </div>
-                <p>围绕真实需求制作由 AI 驱动，而不是仅仅附加 AI 功能的工具。</p>
+            <details class="work-item" name="work-direction">
+              <summary>
+                <span class="work-number">01</span>
+                <span class="work-content">
+                  <span class="work-title-row">
+                    <span class="work-title">AI Native 工具</span>
+                    <span class="status">持续探索</span>
+                  </span>
+                  <span class="work-summary">围绕真实需求制作由 AI 驱动，而不是仅仅附加 AI 功能的工具。</span>
+                </span>
+                <span class="direction-mark" aria-hidden="true">↘</span>
+              </summary>
+              <div class="work-detail-panel">
+                <p class="detail-label">具体关注</p>
                 <ul class="detail-list">
                   <li>从具体问题定义工具边界</li>
                   <li>让 AI 参与核心流程，而非停留在表层入口</li>
                 </ul>
+                <a class="detail-link" href="https://github.com/YeeKuson" target="_blank" rel="noopener noreferrer">在 GitHub 查看项目 ↗</a>
               </div>
-              <span class="direction-mark" aria-hidden="true">↗</span>
-            </article>
+            </details>
 
-            <article class="work-item">
-              <p class="work-number">02</p>
-              <div class="work-content">
-                <div class="work-title-row">
-                  <h3>工作流改造</h3>
-                  <span class="status">实践中</span>
-                </div>
-                <p>识别传统工作中的重复步骤、信息断点和人工负担，再用 Agent、自动化和软件系统重新组织流程。</p>
+            <details class="work-item" name="work-direction">
+              <summary>
+                <span class="work-number">02</span>
+                <span class="work-content">
+                  <span class="work-title-row">
+                    <span class="work-title">工作流改造</span>
+                    <span class="status">实践中</span>
+                  </span>
+                  <span class="work-summary">识别重复步骤、信息断点和人工负担，用 Agent、自动化和软件系统重新组织流程。</span>
+                </span>
+                <span class="direction-mark" aria-hidden="true">↘</span>
+              </summary>
+              <div class="work-detail-panel">
+                <p class="detail-label">实践原则</p>
                 <ul class="detail-list">
                   <li>优先处理高频、耗时、容易出错的问题</li>
                   <li>不为使用 AI 而使用 AI</li>
                 </ul>
+                <a class="detail-link" href="https://mcnj84082pxc.feishu.cn/wiki/Qd7MwzwRHiT0fmklGGScd7plnOe" target="_blank" rel="noopener noreferrer">在飞书查看完整内容 ↗</a>
               </div>
-              <span class="direction-mark" aria-hidden="true">↗</span>
-            </article>
+            </details>
 
-            <article class="work-item">
-              <p class="work-number">03</p>
-              <div class="work-content">
-                <div class="work-title-row">
-                  <h3>FDE 实践</h3>
-                  <span class="status status-secondary">持续探索</span>
-                </div>
-                <p>从真实现场和具体问题出发，把业务规则与软件工程结合起来，探索 AI 可靠进入实际工作的方式。</p>
+            <details class="work-item" name="work-direction">
+              <summary>
+                <span class="work-number">03</span>
+                <span class="work-content">
+                  <span class="work-title-row">
+                    <span class="work-title">FDE 实践</span>
+                    <span class="status status-secondary">持续探索</span>
+                  </span>
+                  <span class="work-summary">从真实现场和具体问题出发，把业务规则与软件工程结合起来。</span>
+                </span>
+                <span class="direction-mark" aria-hidden="true">↘</span>
+              </summary>
+              <div class="work-detail-panel">
+                <p class="detail-label">实践方向</p>
                 <ul class="detail-list">
                   <li>理解现场约束，而不是只做概念演示</li>
                   <li>让解决方案在真实流程中持续工作</li>
                 </ul>
+                <a class="detail-link" href="https://mcnj84082pxc.feishu.cn/wiki/Qd7MwzwRHiT0fmklGGScd7plnOe" target="_blank" rel="noopener noreferrer">在飞书查看完整内容 ↗</a>
               </div>
-              <span class="direction-mark" aria-hidden="true">↗</span>
-            </article>
+            </details>
           </div>
 
           <div class="project-empty" aria-labelledby="project-empty-title">
             <p class="empty-label">PROJECTS / COMING NEXT</p>
             <h3 id="project-empty-title">作品会在准备好之后出现。</h3>
-            <p>新作品正在整理中。这里不会用概念稿冒充已经完成的项目。</p>
+            <p>新作品会先在飞书完成，再同步到这里；首页保留摘要，详情页展开完整过程。</p>
           </div>
         </div>
       </section>

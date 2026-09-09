@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-# 正式域名确认后，再加入 Sitemap 的绝对地址。
+Sitemap: https://yeekuson.github.io/Forverse/sitemap.xml
