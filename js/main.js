@@ -4,11 +4,26 @@ const header = document.querySelector("[data-header]");
 const navigationLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
 const sections = Array.from(document.querySelectorAll("main .section-anchor"));
 const yearNodes = document.querySelectorAll("[data-current-year]");
+let activeDialog = null;
+let dialogTrigger = null;
 
-/**
- * 将页脚年份同步为访问者设备上的当前年份。
- * 输入：包含 data-current-year 的元素集合；输出：无；副作用：更新元素文本。
- */
+const qrProfiles = {
+  wechat: {
+    label: "微信公众号",
+    title: "扫码关注海绵朋克",
+    src: "assets/qrcodes/wechat-official.jpg",
+    alt: "海绵朋克微信公众号二维码",
+    description: "长篇实践记录、方法总结和阶段性思考。",
+  },
+  xiaohongshu: {
+    label: "小红书",
+    title: "扫码找到朋克海绵",
+    src: "assets/qrcodes/xiaohongshu.jpg",
+    alt: "朋克海绵的小红书账号卡片和二维码，小红书号 95571840715",
+    description: "朋克海绵 · 小红书号 95571840715",
+  },
+};
+
 function updateCurrentYear() {
   const currentYear = String(new Date().getFullYear());
   yearNodes.forEach((node) => {
@@ -16,65 +31,114 @@ function updateCurrentYear() {
   });
 }
 
-/**
- * 根据滚动距离切换导航栏的可读背景。
- * 输入：浏览器当前滚动位置；输出：无；副作用：切换 header class。
- */
-function updateHeaderSurface() {
-  if (!header) return;
-  header.classList.toggle("is-scrolled", window.scrollY > 16);
-}
-
-/**
- * 标记当前最接近视口上方参考线的页面板块。
- * 输入：页面板块位置；输出：无；副作用：更新导航 aria-current 和 class。
- */
-function updateActiveNavigation() {
+function updatePageState() {
+  if (header) header.classList.toggle("is-scrolled", window.scrollY > 12);
   if (navigationLinks.length === 0 || sections.length === 0) return;
 
-  const referenceLine = Math.max(120, window.innerHeight * 0.3);
-  let activeSectionId = sections[0].id;
-
+  const referenceLine = Math.max(100, window.innerHeight * 0.28);
+  let activeId = sections[0].id;
   sections.forEach((section) => {
-    if (section.getBoundingClientRect().top <= referenceLine) {
-      activeSectionId = section.id;
-    }
+    if (section.getBoundingClientRect().top <= referenceLine) activeId = section.id;
   });
 
   navigationLinks.forEach((link) => {
-    const isActive = link.getAttribute("href") === `#${activeSectionId}`;
+    const isActive = link.getAttribute("href") === `#${activeId}`;
     link.classList.toggle("is-active", isActive);
-    if (isActive) {
-      link.setAttribute("aria-current", "location");
-    } else {
-      link.removeAttribute("aria-current");
-    }
+    if (isActive) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
   });
 }
 
-/**
- * 合并滚动期间的界面更新，避免同一帧重复计算布局。
- * 输入：滚动事件；输出：无；副作用：安排下一帧的导航更新。
- */
-function createScrollScheduler() {
-  let framePending = false;
-
-  return function scheduleScrollUpdate() {
-    if (framePending) return;
-    framePending = true;
-    window.requestAnimationFrame(() => {
-      updateHeaderSurface();
-      updateActiveNavigation();
-      framePending = false;
-    });
-  };
+function getFocusableElements(dialog) {
+  return Array.from(
+    dialog.querySelectorAll('a[href], button:not([disabled]):not([data-dialog-backdrop]), [tabindex]:not([tabindex="-1"])'),
+  ).filter((element) => !element.hasAttribute("hidden"));
 }
 
-const scheduleScrollUpdate = createScrollScheduler();
+function closeDialog(dialog = activeDialog) {
+  if (!dialog) return;
+  dialog.classList.remove("is-open");
+  dialog.hidden = true;
+  activeDialog = null;
+  const trigger = dialogTrigger;
+  dialogTrigger = null;
+  if (trigger) trigger.focus({ preventScroll: true });
+}
+
+function openDialog(dialog, trigger) {
+  if (!dialog) return;
+  if (activeDialog) closeDialog(activeDialog);
+  dialogTrigger = trigger;
+  activeDialog = dialog;
+  dialog.hidden = false;
+  window.requestAnimationFrame(() => {
+    dialog.classList.add("is-open");
+    const focusable = getFocusableElements(dialog);
+    (focusable[0] || dialog.querySelector("[role='dialog']"))?.focus({ preventScroll: true });
+  });
+}
+
+function configureQrDialog(profileName) {
+  const profile = qrProfiles[profileName];
+  const dialog = document.getElementById("qr-dialog");
+  if (!profile || !dialog) return dialog;
+  dialog.querySelector("[data-qr-label]").textContent = profile.label;
+  dialog.querySelector("[data-qr-title]").textContent = profile.title;
+  const image = dialog.querySelector("[data-qr-image]");
+  image.src = profile.src;
+  image.alt = profile.alt;
+  dialog.querySelector("[data-qr-description]").textContent = profile.description;
+  return dialog;
+}
+
+document.addEventListener("click", (event) => {
+  const dialogButton = event.target.closest("[data-open-dialog]");
+  if (dialogButton) {
+    openDialog(document.getElementById(dialogButton.dataset.openDialog), dialogButton);
+    return;
+  }
+
+  const qrButton = event.target.closest("[data-open-qr]");
+  if (qrButton) {
+    openDialog(configureQrDialog(qrButton.dataset.openQr), qrButton);
+    return;
+  }
+
+  if (event.target.closest("[data-close-dialog]")) closeDialog();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (!activeDialog) return;
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeDialog();
+    return;
+  }
+  if (event.key !== "Tab") return;
+  const focusable = getFocusableElements(activeDialog);
+  if (focusable.length === 0) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
+
+let framePending = false;
+function schedulePageUpdate() {
+  if (framePending) return;
+  framePending = true;
+  window.requestAnimationFrame(() => {
+    updatePageState();
+    framePending = false;
+  });
+}
 
 updateCurrentYear();
-updateHeaderSurface();
-updateActiveNavigation();
-
-window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
-window.addEventListener("resize", scheduleScrollUpdate, { passive: true });
+updatePageState();
+window.addEventListener("scroll", schedulePageUpdate, { passive: true });
+window.addEventListener("resize", schedulePageUpdate, { passive: true });
