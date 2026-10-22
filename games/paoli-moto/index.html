@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111818">
+  <title>泡利摩托</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23ea573e'/%3E%3Cpath d='M19 4 8 18h8l-3 10 12-15h-9z' fill='%23fff4db'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="stage" aria-label="泡利摩托游戏">
+  <canvas id="world" width="1280" height="720" aria-label="摩托竞速画面"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <section id="home" class="screen">
+    <h1 aria-label="泡利摩托"><svg viewBox="0 0 820 180" role="img" aria-hidden="true"><defs><linearGradient id="logoPaint" x2="0" y2="1"><stop stop-color="#fff1ac"/><stop offset=".46" stop-color="#ffd358"/><stop offset=".5" stop-color="#f5a53b"/><stop offset="1" stop-color="#d64a27"/></linearGradient></defs><path d="M72 147 770 130 739 152 45 164Z" fill="#c73621"/><text x="405" y="133" text-anchor="middle" class="logo-shadow">泡利摩托</text><text x="400" y="123" text-anchor="middle" class="logo-type">泡利摩托</text></svg></h1>
+    <button id="start" class="start-button"><span>自由赛</span><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 5 17 11L8 27Z"/></svg></button>
+    <button id="tourStart" class="start-button tour-start"><span>锦标赛</span><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 5 17 11L8 27Z"/></svg></button>
+    <nav class="home-nav" aria-label="首页菜单">
+      <button id="tracksButton"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 27 6-22m10 22L20 5M16 10v3m0 5v3"/></svg><span>切换赛道</span></button>
+      <button id="garageButton"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m5 15 11-9 11 9v12H5Zm4 4h14m-14 4h14"/></svg><span>摩托／武器</span></button>
+      <button id="helpButton"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 8h24v18H4Zm5 6h6m-3-3v6m9-3h2m-1 6h2"/></svg><span>操作说明</span></button>
+    </nav>
+  </section>
+  <div id="hud" hidden>
+    <div class="race-stats"><span class="flag-symbol" aria-hidden="true">⚑</span><strong id="rank">15<span>/15</span></strong><span class="stat-divider"></span><span id="distance">0.0 / 8.5</span><small>km</small></div>
+    <div class="clock-stat" id="clock">0:00</div><div id="loadout" class="loadout-stat"></div>
+    <div class="stamina-stat" aria-label="本次骑乘体力"><i id="stamina"></i></div>
+    <div class="speed-stat" aria-label="速度表">
+      <svg viewBox="0 0 180 180" aria-hidden="true">
+        <defs><linearGradient id="metal" x2=".8" y2="1"><stop stop-color="#e3e6ea"/><stop offset=".35" stop-color="#454b57"/><stop offset=".7" stop-color="#a5aab1"/><stop offset="1" stop-color="#242833"/></linearGradient><radialGradient id="dial"><stop stop-color="#333b48"/><stop offset="1" stop-color="#10151d"/></radialGradient></defs>
+        <circle cx="90" cy="90" r="86" fill="url(#metal)"/><circle cx="90" cy="90" r="80" fill="#070d16"/><circle cx="90" cy="90" r="75" fill="url(#dial)" stroke="#89919b"/>
+        <g id="dialTicks" stroke="#e0e2dd" stroke-width="2"></g>
+        <g fill="#e1e3df" font-family="monospace" font-size="12" text-anchor="middle"><text x="44" y="120">0</text><text x="55" y="49">60</text><text x="125" y="49">120</text><text x="138" y="120">180</text></g>
+        <path id="speedNeedle" d="M87 104 89 27 93 104Z" fill="#f4543f" transform="rotate(-120 90 90)"/><circle cx="90" cy="90" r="8" fill="#c6c9cc" stroke="#222936" stroke-width="4"/>
+        <text x="90" y="64" fill="#e0ddd2" font-size="10" text-anchor="middle">km/h</text>
+      </svg>
+      <strong id="speed">0</strong>
+    </div>
+    <div class="progress-track"><i id="progress"></i></div>
+    <div id="pursuit" hidden aria-label="追捕中"><svg viewBox="0 0 40 40"><path d="M20 7 35 32H5Z"/><path d="M20 15v8m0 4v1"/></svg><div><i id="capture"></i></div></div>
+  </div>
+  <div class="top-buttons">
+    <button id="audioButton" class="icon-button" aria-label="开启声音" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM17 9l4 6m0-6-4 6"/></svg></button>
+    <button id="pauseButton" class="icon-button" aria-label="暂停" hidden><svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
+  </div>
+  <div id="touchControls" hidden>
+    <div id="directionPad" class="direction-pad" role="group" aria-label="方向控制，左右转向，下方减速">
+      <svg viewBox="0 0 160 160" aria-hidden="true"><path class="pad-cross" d="M56 14h48v42h42v48h-42v42H56v-42H14V56h42Z"/><path class="pad-arrows" d="m68 32 12-10 12 10m-60 36-10 12 10 12m96-24 10 12-10 12m-60 36 12 10 12-10"/><circle class="pad-center" cx="80" cy="80" r="18"/></svg>
+      <i id="padThumb"></i>
+    </div>
+    <div class="actions">
+      <button class="drive-button brake-button" data-hold="brake" aria-label="刹车"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="13"/><path d="M6 12v24m36-24v24M19 18v12m10-12v12"/></svg></button>
+      <button class="drive-button punch-button" data-hold="hand" aria-label="手部攻击，按住连续"><svg viewBox="0 0 48 48"><path d="M12 30V19q0-4 4-3v-5q4-3 6 1 4-4 7 1 4-1 5 3v3q5 0 4 5l-5 12H18zM18 21v5m7-13v11m7-7v9"/></svg></button>
+      <button class="drive-button kick-button" data-hold="foot" aria-label="脚部攻击，按住连续"><svg viewBox="0 0 48 48"><path d="m17 7 10 2-5 17 14 4q6 3 2 8H12l-4-6 8-10z"/></svg></button>
+    </div>
+  </div>
+  <div id="countdown" aria-live="polite" hidden></div>
+  <section id="pausePanel" class="overlay" hidden>
+    <div class="small-panel"><span class="panel-mark" aria-hidden="true">Ⅱ</span><h2>暂停</h2><button id="resume" class="primary">继续比赛</button><button id="abandon" class="secondary">返回首页</button></div>
+  </section>
+  <section id="abandonPanel" class="overlay" hidden>
+    <div class="small-panel"><h2>放弃本局？</h2><div class="button-row"><button id="cancelAbandon" class="primary">取消</button><button id="confirmAbandon" class="secondary">返回首页</button></div></div>
+  </section>
+  <section id="resultPanel" class="overlay" hidden>
+    <div class="result-card"><div class="result-symbol" id="resultSymbol" aria-hidden="true">⚑</div><h2 id="resultTitle">冲线完成</h2><p class="result-complete">本局已完成</p><div class="result-numbers"><div><strong id="resultRank">1</strong><small id="resultRankLabel">名次</small></div><div><strong id="resultTime">4:30</strong><small>用时</small></div><div><strong id="resultDistance">8.5</strong><small>km</small></div></div><div id="tourResult" hidden></div><div class="result-actions"><button id="restart" class="primary">再玩一次 <span aria-hidden="true">↗</span></button><button id="backHome" class="secondary">返回首页</button></div></div>
+  </section>
+  <section id="modal" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="menu-panel"><header><h2 id="modalTitle"></h2><button id="closeModal" class="icon-button" aria-label="关闭"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></header><div id="modalContent"></div></div>
+  </section>
+  <section id="errorPanel" class="overlay" hidden><div class="small-panel"><h2>画面暂时未能启动</h2><p id="errorMessage"></p><button id="retry" class="primary">重新加载</button></div></section>
+</main>
+<script src="config.js"></script>
+<script src="game-core.js"></script>
+<script src="road-view.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

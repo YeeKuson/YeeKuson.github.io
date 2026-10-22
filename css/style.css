@@ -985,6 +985,63 @@ p {
   gap: 0.65rem;
 }
 
+.game-launch {
+  display: flex;
+  min-height: 96px;
+  margin-block: 1.5rem;
+  padding: 1rem;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--glass-strong);
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-sans);
+  text-decoration: none;
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  transition: background var(--dur-sm) var(--ease-standard), box-shadow var(--dur-sm) var(--ease-standard);
+}
+
+.game-launch:hover {
+  background: var(--primary-soft);
+  box-shadow: var(--shadow-md);
+}
+
+.game-launch > img {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+}
+
+.game-launch > span {
+  min-width: 0;
+  flex: 1;
+}
+
+.game-launch strong,
+.game-launch small {
+  display: block;
+}
+
+.game-launch strong {
+  font-size: 1.2rem;
+}
+
+.game-launch small {
+  margin-top: 0.25rem;
+  color: var(--foreground-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.game-launch > svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  fill: var(--primary);
+}
+
 .course-checklist {
   padding-left: 0;
   list-style: none;

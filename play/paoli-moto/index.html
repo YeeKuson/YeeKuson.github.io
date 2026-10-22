@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101515" />
+    <meta name="description" content="在浏览器体验海绵朋克制作的《泡利摩托》HTML 版，支持自由赛、锦标赛和手机触屏操作。" />
+    <title>泡利摩托 · 在线体验｜Forverse</title>
+    <link rel="icon" href="../../assets/images/paoli-moto-logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../../css/style.css" />
+    <link rel="stylesheet" href="../../css/game.css" />
+    <script src="../../js/game.js" defer></script>
+  </head>
+  <body class="game-page">
+    <header class="game-toolbar">
+      <a class="game-return" href="../../courses/ai-game-development/index.html#play-paoli-moto">← 返回文章</a>
+      <h1><img src="../../assets/images/paoli-moto-logo.svg" width="28" height="28" alt="" />泡利摩托</h1>
+      <button class="game-fullscreen" type="button" data-game-fullscreen hidden>全屏游玩</button>
+    </header>
+    <main>
+      <iframe class="game-frame" src="../../games/paoli-moto/index.html" title="泡利摩托 HTML 版游戏" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+      <div class="game-notes">
+        <p>手机建议横屏；操作说明见游戏首页。声音默认关闭，可在游戏右上角开启。</p>
+        <p>本局进度在刷新后重置。<a href="../../games/paoli-moto/index.html">独立打开游戏 ↗</a></p>
+        <p data-fullscreen-status role="status" hidden></p>
+        <noscript><p>游戏需要启用 JavaScript 才能运行。</p></noscript>
+      </div>
+    </main>
+  </body>
+</html>
