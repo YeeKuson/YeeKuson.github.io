@@ -22,6 +22,20 @@ const qrProfiles = {
     alt: "朋克海绵的小红书账号卡片和二维码，小红书号 95571840715",
     description: "朋克海绵 · 小红书号 95571840715",
   },
+  bilibili: {
+    label: "哔哩哔哩（B 站）",
+    title: "創造故事的樂老闆",
+    src: "assets/qrcodes/bilibili.jpg",
+    alt: "B 站账号創造故事的樂老闆的名片与二维码",
+    description: "保存账号名片，使用哔哩哔哩 App 扫码查看 UP 主。",
+  },
+  douyin: {
+    label: "抖音",
+    title: "樂の師.",
+    src: "assets/qrcodes/douyin.jpg",
+    alt: "抖音账号樂の師.的名片与抖音码，抖音号 leshi52508",
+    description: "抖音号：leshi52508。保存账号名片，使用抖音扫一扫。",
+  },
 };
 
 function updateCurrentYear() {
@@ -87,6 +101,7 @@ function configureQrDialog(profileName) {
   const image = dialog.querySelector("[data-qr-image]");
   image.src = profile.src;
   image.alt = profile.alt;
+  dialog.querySelector("[data-qr-original]").href = profile.src;
   dialog.querySelector("[data-qr-description]").textContent = profile.description;
   return dialog;
 }
